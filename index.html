@@ -166,6 +166,8 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border: 1px solid #e9ecef;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
@@ -179,6 +181,10 @@
             color: var(--primary-dark);
             margin-bottom: 1rem;
         }
+        .card > p, .card > ul {
+            margin-bottom: auto; /* Push content down in flexbox */
+        }
+
 
         /* Image Placeholders */
         .image-placeholder {
@@ -334,7 +340,17 @@
         }
 
         .resource-card {
+            /* This inherits from .card, so it's already a flex container */
+            padding: 1rem;
             text-align: center;
+        }
+        
+        .resource-card .card-title {
+            font-size: 1rem; /* Smaller title for gallery cards */
+            min-height: 48px; /* Reserve space for 2 lines of text */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .resource-card .image-placeholder {
@@ -344,7 +360,6 @@
         
         .download-button {
             display: inline-block;
-            margin-top: 1rem;
             padding: 0.6rem 1.2rem;
             background-color: var(--primary-blue);
             color: var(--white);
@@ -353,6 +368,7 @@
             font-weight: 500;
             transition: all 0.3s ease;
             width: 100%;
+            margin-top: auto; /* The MAGIC property */
         }
 
         .download-button:hover {
@@ -410,6 +426,10 @@
             .content-grid,
             .resource-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .resource-card .card-title {
+                min-height: auto; /* Remove min-height on mobile */
             }
 
             .usage-grid {
@@ -824,12 +844,8 @@
                         
                         // Update active nav link based on what's visible
                         const sectionId = entry.target.id;
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href') === `#${sectionId}`) {
-                                link.classList.add('active');
-                            }
-                        });
+                        document.querySelector('.nav-link.active')?.classList.remove('active');
+                        document.querySelector(`.nav-link[href="#${sectionId}"]`)?.classList.add('active');
                     }
                 });
             }, observerOptions);
