@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Marca Escuni - Centro Universitario de Educación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #26B2DD;
+            --primary-dark: #3A445D;
+            --secondary-purple: #B47EB3;
+            --secondary-green: #1EF0A3;
+            --secondary-pink: #FFD5FF;
+            --secondary-orange: #FFC56F;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #6c757d;
+            --dark-gray: #343a40;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--white);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+            color: var(--white);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin: 0.25rem 0;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--secondary-green);
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 2rem;
+            max-width: calc(100vw - 300px);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+        }
+
+        .subsection {
+            margin-bottom: 2rem;
+        }
+
+        .subsection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .subsection-title i {
+            margin-right: 0.5rem;
+            color: var(--primary-blue);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        /* Image Placeholders */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #e9ecef 100%);
+            border: 2px dashed var(--medium-gray);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .image-placeholder:hover {
+            border-color: var(--primary-blue);
+            background: linear-gradient(135deg, rgba(38, 178, 221, 0.1) 0%, rgba(38, 178, 221, 0.05) 100%);
+        }
+
+        .image-placeholder i {
+            font-size: 2rem;
+            color: var(--medium-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .image-placeholder span {
+            color: var(--medium-gray);
+            font-weight: 500;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .color-swatch {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.05);
+        }
+
+        .color-preview {
+            height: 80px;
+            width: 100%;
+        }
+
+        .color-info {
+            padding: 1rem;
+        }
+
+        .color-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .color-values {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+
+        .color-values div {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Typography Samples */
+        .typography-sample {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .font-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .font-weights {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .weight-sample {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .weight-label {
+            min-width: 100px;
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+
+        /* Usage Examples */
+        .usage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .usage-example {
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .usage-correct {
+            background: linear-gradient(135deg, rgba(30, 240, 163, 0.1) 0%, rgba(30, 240, 163, 0.05) 100%);
+            border: 2px solid var(--secondary-green);
+        }
+
+        .usage-incorrect {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.05) 100%);
+            border: 2px solid #dc3545;
+        }
+
+        .usage-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .usage-correct .usage-title {
+            color: #198754;
+        }
+
+        .usage-incorrect .usage-title {
+            color: #dc3545;
+        }
+        
+        /* Resource Gallery */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            text-align: center;
+        }
+
+        .resource-card .image-placeholder {
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+        
+        .download-button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .download-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .download-button i {
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive Design */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100vw;
+                padding: 1rem;
+                padding-top: 4rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .content-grid,
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .usage-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Print styles */
+        @media print {
+            .sidebar, .mobile-toggle {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 0;
+            }
+            .section {
+                opacity: 1;
+                transform: none;
+            }
+            .card, .usage-example, .color-swatch {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Guía de Marca</h1>
+                <p>Centro Universitario de Educación</p>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <a href="#concepto" class="nav-link active">
+                        <i class="fas fa-lightbulb"></i>
+                        Concepto de Marca
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#logotipo" class="nav-link">
+                        <i class="fas fa-star"></i>
+                        Logotipo
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#sellos" class="nav-link">
+                        <i class="fas fa-certificate"></i>
+                        Sellos
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#colores" class="nav-link">
+                        <i class="fas fa-palette"></i>
+                        Colores
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#tipografias" class="nav-link">
+                        <i class="fas fa-font"></i>
+                        Tipografía
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#usos-indebidos" class="nav-link">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Usos Indebidos
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#galeria-recursos" class="nav-link">
+                        <i class="fas fa-download"></i>
+                        Galería de Recursos
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Concepto de Marca -->
+            <section id="concepto" class="section visible">
+                <div class="section-header">
+                    <h1 class="section-title">Concepto de Marca</h1>
+                    <p class="section-subtitle">La esencia y personalidad de Escuni</p>
+                </div>
+                <div class="content-grid">
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-target"></i> Misión y Esencia</h3>
+                        <p>Escuni es un Centro Universitario de Educación adscrito a la Universidad Pontificia de Salamanca. Su misión principal es formar maestros, pedagogos y educadores sociales, capacitándolos para ser profesionales que impulsan una educación transformadora, inspirada en la fe y los valores cristianos.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-puzzle-piece"></i> Conceptos Fundamentales</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><i class="fas fa-graduation-cap" style="color: var(--primary-blue); margin-right: 0.5rem;"></i> Educación</li>
+                            <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><i class="fas fa-brain" style="color: var(--primary-blue); margin-right: 0.5rem;"></i> Conocimiento</li>
+                            <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><i class="fas fa-cross" style="color: var(--primary-blue); margin-right: 0.5rem;"></i> Origen cristiano</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-heart"></i> Personalidad de la Marca</h3>
+                        <p>La personalidad de Escuni se define como <strong>cercana e integradora</strong>.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title"><i class="fas fa-tree"></i> Símbolo Central</h3>
+                        <p>El símbolo que representa la educación y la identidad cristiana de Escuni es el <strong>árbol de la vida</strong> del libro del Apocalipsis, capítulo 22. Este árbol es descrito en la Biblia como aquel que da fruto doce veces al año, con una cosecha cada mes, y cuyas hojas son medicinales para las naciones.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Logotipo -->
+            <section id="logotipo" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Logotipo</h1>
+                    <p class="section-subtitle">El elemento más reconocible de nuestra marca</p>
+                </div>
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-layer-group"></i> Versiones y Usos</h2>
+                    <div class="content-grid">
+                        <div class="card">
+                            <h3 class="card-title">Versión Principal (Masterbrand)</h3>
+                            <div class="image-placeholder"><i class="fas fa-image"></i><span>Logotipo Principal Vertical</span></div>
+                            <div class="image-placeholder"><i class="fas fa-image"></i><span>Logotipo Principal Horizontal</span></div>
+                            <p>Es la versión prioritaria para la mayoría de las comunicaciones. Se utiliza cuando no es necesario añadir un descriptor que contextualice la marca.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="card-title">Versiones con Descriptor</h3>
+                            <div class="image-placeholder"><i class="fas fa-image"></i><span>Con descriptor "Centro Universitario de Educación"</span></div>
+                            <div class="image-placeholder"><i class="fas fa-image"></i><span>Con descriptor "Centro de Enseñanza Superior"</span></div>
+                            <p><strong>Comercial:</strong> "Centro Universitario de Educación"<br><strong>Oficial:</strong> "Centro de Enseñanza Superior"</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="card-title">Versiones con Adscripción</h3>
+                            <div class="image-placeholder"><i class="fas fa-image"></i><span>Con adscripción a Universidad Pontificia de Salamanca</span></div>
+                            <p>Versiones específicas que incluyen la adscripción a la Universidad Pontificia de Salamanca.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-expand-arrows-alt"></i> Área de Respeto y Tamaños Mínimos</h2>
+                    <div class="content-grid">
+                        <div class="card">
+                            <h3 class="card-title">Área de Seguridad</h3>
+                            <div class="image-placeholder"><i class="fas fa-image"></i><span>Ejemplo de área de respeto del logotipo</span></div>
+                            <p>Espacio mínimo reservado alrededor de la marca. Dentro de esta área, no debe colocarse ningún otro elemento gráfico.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="card-title">Tamaños Mínimos</h3>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><strong>Icono:</strong> 6 mm (17 px)</li>
+                                <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><strong>Versiones Principales:</strong> 24 mm (68 px)</li>
+                                <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><strong>Con Descriptor:</strong> 18 mm (51 px)</li>
+                                <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><strong>Con U. Salamanca:</strong> 23 mm (65 px)</li>
+                                <li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><strong>Sellos:</strong> 22 mm (70 px)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sellos -->
+            <section id="sellos" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Sellos</h1>
+                    <p class="section-subtitle">Elementos gráficos complementarios para contextos específicos</p>
+                </div>
+                <div class="content-grid">
+                    <div class="card">
+                        <h3 class="card-title">Sellos con Descriptor</h3>
+                        <div class="image-placeholder"><i class="fas fa-image"></i><span>Sello "Centro Universitario de Educación"</span></div>
+                        <div class="image-placeholder"><i class="fas fa-image"></i><span>Sello "Centro de Enseñanza Superior"</span></div>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">Sello con Adscripción</h3>
+                        <div class="image-placeholder"><i class="fas fa-image"></i><span>Sello con Universidad de Salamanca</span></div>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">Sello con Departamento</h3>
+                        <div class="image-placeholder"><i class="fas fa-image"></i><span>Sello personalizable con departamento</span></div>
+                        <p>Permite incluir el nombre de un departamento específico (ej: Dirección, Secretaría).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Colores -->
+            <section id="colores" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Colores</h1>
+                    <p class="section-subtitle">Paleta cromática para la coherencia visual de Escuni</p>
+                </div>
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-star"></i> Colores Principales</h2>
+                    <p>Prioritarios para aplicaciones corporativas como tarjetas de presentación o carpetas.</p>
+                    <div class="color-grid">
+                        <div class="color-swatch"><div class="color-preview" style="background-color: #26B2DD;"></div><div class="color-info"><div class="color-name">Azul Principal</div><div class="color-values"><div><strong>PANTONE:</strong> 298C Solid Coated</div><div><strong>CMYK:</strong> 69-4-4-0</div><div><strong>RGB:</strong> 38-178-221</div><div><strong>HEX:</strong> #26B2DD</div></div></div></div>
+                        <div class="color-swatch"><div class="color-preview" style="background-color: #3A445D;"></div><div class="color-info"><div class="color-name">Azul Oscuro</div><div class="color-values"><div><strong>PANTONE:</strong> 7546 C Solid Coated</div><div><strong>CMYK:</strong> 78-58-44-39</div><div><strong>RGB:</strong> 58-68-93</div><div><strong>HEX:</strong> #3A445D</div></div></div></div>
+                    </div>
+                </div>
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-palette"></i> Colores Secundarios</h2>
+                    <p>Para apoyo y complemento. Ideales para formatos digitales como web o redes sociales.</p>
+                    <div class="color-grid">
+                        <div class="color-swatch"><div class="color-preview" style="background-color: #B47EB3;"></div><div class="color-info"><div class="color-name">Púrpura</div><div class="color-values"><div><strong>PANTONE:</strong> 521C Solid Coated</div><div><strong>CMYK:</strong> 41-56-5-0</div><div><strong>RGB:</strong> 180-126-179</div><div><strong>HEX:</strong> #B47EB3</div></div></div></div>
+                        <div class="color-swatch"><div class="color-preview" style="background-color: #1EF0A3;"></div><div class="color-info"><div class="color-name">Verde</div><div class="color-values"><div><strong>PANTONE:</strong> 333 Solid Coated</div><div><strong>CMYK:</strong> 62-0-34-0</div><div><strong>RGB:</strong> 30-240-163</div><div><strong>HEX:</strong> #1EF0A3</div></div></div></div>
+                        <div class="color-swatch"><div class="color-preview" style="background-color: #FFD5FF;"></div><div class="color-info"><div class="color-name">Rosa</div><div class="color-values"><div><strong>PANTONE:</strong> 256C Solid Coated</div><div><strong>CMYK:</strong> 4-22-0-0</div><div><strong>RGB:</strong> 255-213-255</div><div><strong>HEX:</strong> #FFD5FF</div></div></div></div>
+                        <div class="color-swatch"><div class="color-preview" style="background-color: #FFC56F;"></div><div class="color-info"><div class="color-name">Naranja</div><div class="color-values"><div><strong>PANTONE:</strong> 1355 Solid Coated</div><div><strong>CMYK:</strong> 0-22-58-0</div><div><strong>RGB:</strong> 255-197-111</div><div><strong>HEX:</strong> #FFC56F</div></div></div></div>
+                    </div>
+                </div>
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-adjust"></i> Versiones de Color del Logotipo</h2>
+                    <div class="content-grid">
+                        <div class="card"><h3 class="card-title">Logotipo en Positivo</h3><div class="image-placeholder"><i class="fas fa-image"></i><span>Logotipo sobre fondos claros</span></div><p>Se usa sobre fondos claros.</p></div>
+                        <div class="card"><h3 class="card-title">Logotipo en Negativo</h3><div class="image-placeholder"><i class="fas fa-image"></i><span>Logotipo sobre fondos oscuros</span></div><p>Se usa sobre fondos oscuros o imágenes. Se prioriza el árbol en azul cuando la legibilidad lo permita.</p></div>
+                        <div class="card"><h3 class="card-title">Versión a Una Tinta</h3><div class="image-placeholder"><i class="fas fa-image"></i><span>Logotipo monocromático</span></div><p>Para fondos claros u oscuros, o sobre imágenes.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tipografías -->
+            <section id="tipografias" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Tipografía Corporativa</h1>
+                    <p class="section-subtitle">La fuente que define la voz de nuestra marca.</p>
+                </div>
+                <div class="typography-sample">
+                    <div class="font-name">
+                        <i class="fas fa-font"></i>
+                        Poppins (Google Fonts)
+                    </div>
+                    <p><strong>Poppins es la tipografía corporativa principal y única de Escuni.</strong> Se utiliza en todas las comunicaciones, desde los descriptores del logotipo hasta el contenido web y los documentos impresos. Sus formas geométricas y su carácter moderno y accesible refuerzan la personalidad cercana e integradora de la marca.</p>
+                    <div class="font-weights">
+                        <div class="weight-sample"><span class="weight-label">Light 300:</span><span style="font-weight: 300; font-size: 1.2rem;">Centro Universitario de Educación</span></div>
+                        <div class="weight-sample"><span class="weight-label">Regular 400:</span><span style="font-weight: 400; font-size: 1.2rem;">Centro Universitario de Educación</span></div>
+                        <div class="weight-sample"><span class="weight-label">Medium 500:</span><span style="font-weight: 500; font-size: 1.2rem;">Centro Universitario de Educación</span></div>
+                        <div class="weight-sample"><span class="weight-label">SemiBold 600:</span><span style="font-weight: 600; font-size: 1.2rem;">Centro Universitario de Educación</span></div>
+                        <div class="weight-sample"><span class="weight-label">Bold 700:</span><span style="font-weight: 700; font-size: 1.2rem;">Centro Universitario de Educación</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usos Indebidos -->
+            <section id="usos-indebidos" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Usos Indebidos del Logotipo</h1>
+                    <p class="section-subtitle">Prácticas a evitar para mantener la integridad visual de la marca</p>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-example usage-correct"><div class="usage-title"><i class="fas fa-check-circle"></i> USO CORRECTO</div><div class="image-placeholder"><i class="fas fa-image"></i><span>Ejemplo de uso correcto</span></div><p>Logotipo aplicado correctamente respetando colores, proporciones y área de seguridad.</p></div>
+                    <div class="usage-example usage-incorrect"><div class="usage-title"><i class="fas fa-times-circle"></i> USO INCORRECTO</div><div class="image-placeholder"><i class="fas fa-image"></i><span>Ejemplo de alteración de colores</span></div><p>No alterar los colores de los elementos del logotipo.</p></div>
+                </div>
+                <div class="content-grid">
+                    <div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i> Prohibiciones Importantes</h3><ul style="list-style: none; padding: 0;"><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No alterar los colores de los elementos</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No escalar el descriptor de forma independiente</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No reinterpretar los elementos del logotipo</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No aplicar efectos o versiones no contempladas</li></ul></div>
+                    <div class="card"><h3 class="card-title"><i class="fas fa-ban" style="color: #dc3545;"></i> Más Restricciones</h3><ul style="list-style: none; padding: 0;"><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No usar "escuni" de manera independiente</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No usar sobre fotos con mucha información</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No estirar o deformar el logotipo</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(220, 53, 69, 0.1); border-radius: 4px; border-left: 3px solid #dc3545;"><i class="fas fa-times" style="color: #dc3545; margin-right: 0.5rem;"></i> No usar tipografías distintas a las corporativas</li></ul></div>
+                    <div class="card"><h3 class="card-title"><i class="fas fa-info-circle" style="color: var(--primary-blue);"></i> Nota Importante</h3><div style="padding: 1rem; background: rgba(38, 178, 221, 0.1); border-radius: 8px; border-left: 4px solid var(--primary-blue);"><p><strong>El símbolo del árbol SÍ puede funcionar de manera autónoma</strong> como miniatura para perfiles de redes sociales, en sellos o como fondo en bloques de color.</p></div></div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-example usage-incorrect"><div class="usage-title"><i class="fas fa-times-circle"></i> DEFORMACIÓN</div><div class="image-placeholder"><i class="fas fa-image"></i><span>Ejemplo de logotipo estirado</span></div></div>
+                    <div class="usage-example usage-incorrect"><div class="usage-title"><i class="fas fa-times-circle"></i> TIPOGRAFÍA INCORRECTA</div><div class="image-placeholder"><i class="fas fa-image"></i><span>Ejemplo con tipografía no corporativa</span></div></div>
+                    <div class="usage-example usage-incorrect"><div class="usage-title"><i class="fas fa-times-circle"></i> ELEMENTOS AÑADIDOS</div><div class="image-placeholder"><i class="fas fa-image"></i><span>Ejemplo con elementos gráficos añadidos</span></div></div>
+                    <div class="usage-example usage-incorrect"><div class="usage-title"><i class="fas fa-times-circle"></i> FONDO INADECUADO</div><div class="image-placeholder"><i class="fas fa-image"></i><span>Ejemplo sobre foto con poca legibilidad</span></div></div>
+                </div>
+            </section>
+            
+            <!-- Galería de Recursos -->
+            <section id="galeria-recursos" class="section">
+                <div class="section-header">
+                    <h1 class="section-title">Galería de Recursos</h1>
+                    <p class="section-subtitle">Descarga las diferentes versiones del logotipo y sellos en formato PNG.</p>
+                </div>
+            
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-certificate"></i>Sellos</h2>
+                    <div class="resource-grid">
+                        <!-- CUE -->
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE (Azul)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Azul.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE Lineal (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Lineal_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE Lineal (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Lineal_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE Lineal (Azul)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Lineal_Azul.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE + Pontificia (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Pontificia_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE + Pontificia (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Pontificia_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CUE + Pontificia (Azul)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CUE_Pontificia_Azul.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <!-- CES -->
+                        <div class="card resource-card"><h3 class="card-title">Sello CES (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES (Azul)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Azul.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES Lineal (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Lineal_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES Lineal (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Lineal_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES Lineal (Azul)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Lineal_Azul.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES + Pontificia (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Pontificia_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES + Pontificia (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Pontificia_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Sello CES + Pontificia (Azul)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Sello_CES_Pontificia_Azul.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                    </div>
+                </div>
+            
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-arrows-alt-v"></i>Logo Vertical</h2>
+                    <div class="resource-grid">
+                        <!-- V ESCUNI -->
+                        <div class="card resource-card"><h3 class="card-title">Vertical (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_ESCUNI_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_ESCUNI_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_ESCUNI_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <!-- V CUE -->
+                        <div class="card resource-card"><h3 class="card-title">Vertical CUE (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CUE_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CUE (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CUE_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CUE (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CUE_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CUE + Pont. (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CUE_Pontificia_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CUE + Pont. (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CUE_Pontificia_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CUE + Pont. (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CUE_Pontificia_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <!-- V CES -->
+                        <div class="card resource-card"><h3 class="card-title">Vertical CES (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CES_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CES (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CES_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CES (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CES_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CES + Pont. (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CES_Pontificia_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CES + Pont. (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CES_Pontificia_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Vertical CES + Pont. (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Vertical_CES_Pontificia_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                    </div>
+                </div>
+            
+                <div class="subsection">
+                    <h2 class="subsection-title"><i class="fas fa-arrows-alt-h"></i>Logo Horizontal</h2>
+                    <div class="resource-grid">
+                        <!-- H ESCUNI -->
+                        <div class="card resource-card"><h3 class="card-title">Horizontal (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_ESCUNI_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_ESCUNI_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_ESCUNI_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <!-- H CUE -->
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CUE (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CUE_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CUE (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CUE_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CUE (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CUE_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CUE + Pont. (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CUE_Pontificia_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CUE + Pont. (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CUE_Pontificia_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CUE + Pont. (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CUE_Pontificia_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <!-- H CES -->
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CES (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CES_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CES (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CES_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CES (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CES_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CES + Pont. (Color)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CES_Pontificia_Color.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CES + Pont. (Negativo)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CES_Pontificia_Negativo.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                        <div class="card resource-card"><h3 class="card-title">Horizontal CES + Pont. (Blanco)</h3><div class="image-placeholder"><i class="fas fa-image"></i></div><a href="recursos/Horizontal_CES_Pontificia_Blanco.png" class="download-button" download><i class="fas fa-download"></i> Descargar</a></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            // Smooth scrolling for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Update active nav link
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Close mobile sidebar
+                        if (window.innerWidth <= 768) {
+                            document.getElementById('sidebar').classList.remove('open');
+                        }
+                    }
+                });
+            });
+
+            // Intersection Observer for section visibility
+            const observerOptions = {
+                threshold: 0.1, // Adjusted for taller sections
+                rootMargin: '-50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Update active nav link based on what's visible
+                        const sectionId = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.card, .color-swatch, .typography-sample, .usage-example');
+            const cardObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                cardObserver.observe(card);
+            });
+        });
+
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Color swatch click to copy hex value
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorSwatches = document.querySelectorAll('.color-swatch');
+            
+            colorSwatches.forEach(swatch => {
+                swatch.style.cursor = 'pointer';
+                swatch.addEventListener('click', function() {
+                    const hexValue = this.querySelector('.color-values div:last-child').textContent.split(': ')[1];
+                    
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(hexValue).then(() => {
+                            // Show temporary feedback
+                            const nameElement = this.querySelector('.color-name');
+                            const originalTitle = nameElement.textContent;
+                            nameElement.textContent = '¡Copiado!';
+                            nameElement.style.color = 'var(--secondary-green)';
+                            
+                            setTimeout(() => {
+                                nameElement.textContent = originalTitle;
+                                nameElement.style.color = '';
+                            }, 1500);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
