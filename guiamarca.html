@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Marca Escuni - Centro Universitario de Educación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary-blue: #26b2dd; --primary-dark: #3a445d; --secondary-purple: #b47eb3; --secondary-green: #1ef0a3; --secondary-pink: #ffd5ff; --secondary-orange: #ffc56f; --white: #ffffff; --light-gray: #f8f9fa; --medium-gray: #6c757d; --dark-gray: #343a40; }
+        html { scroll-behavior: smooth; }
+        body { font-family: "Poppins", sans-serif; line-height: 1.6; color: var(--dark-gray); background-color: var(--white); }
+        .container { display: flex; min-height: 100vh; }
+        .sidebar { width: 300px; background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%); color: var(--white); position: fixed; height: 100vh; overflow-y: auto; z-index: 1000; transition: transform 0.3s ease; }
+        .sidebar-header { padding: 2rem 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .sidebar-header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .sidebar-header p { font-size: 0.9rem; opacity: 0.8; }
+        .nav-menu { padding: 1rem 0; }
+        .nav-item { margin: 0.25rem 0; }
+        .nav-link { display: flex; align-items: center; padding: 0.75rem 1.5rem; color: var(--white); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; cursor: pointer; }
+        .nav-link:hover, .nav-link.active { background-color: rgba(255, 255, 255, 0.1); border-left-color: var(--secondary-green); transform: translateX(5px); }
+        .nav-icon { margin-right: 0.5rem; }
+        .main-content { flex: 1; margin-left: 300px; padding: 2rem; max-width: calc(100vw - 300px); }
+        .section { margin-bottom: 3rem; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+        .section-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid var(--primary-blue); }
+        .section-title { font-size: 2.5rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.5rem; }
+        .section-subtitle { font-size: 1.1rem; color: var(--medium-gray); }
+        .subsection { margin-bottom: 2rem; }
+        .subsection-title { font-size: 1.5rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 1rem; display: flex; align-items: center; }
+        .subsection-title svg { margin-right: 0.5rem; color: var(--primary-blue); }
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .card { background: var(--white); border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); border: 1px solid #adb5bd; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); }
+        .image-placeholder { 
+            width: 100%; 
+            min-height: 200px; 
+            /* <!-- CAMBIO CSS --> He reemplazado el gradiente claro por un color sólido para mayor contraste */
+            background-color: #adb5bd; 
+            border: 2px dashed var(--medium-gray); 
+            border-radius: 8px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 1rem 0; 
+            transition: all 0.3s ease; 
+            overflow: hidden; 
+            padding: 1rem; 
+        }
+        .image-placeholder img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 4px; }
+        .image-placeholder:hover { border-color: var(--primary-blue); background: linear-gradient(135deg, rgba(38, 178, 221, 0.1) 0%, rgba(38, 178, 221, 0.05) 100%); }
+        .image-placeholder svg { color: var(--medium-gray); margin-bottom: 0.5rem; }
+        .image-placeholder span { color: var(--medium-gray); font-weight: 500; text-align: center; padding: 0 1rem; }
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .color-swatch { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease; cursor: pointer; }
+        .color-swatch:hover { transform: scale(1.05); }
+        .color-preview { height: 80px; width: 100%; }
+        .color-info { padding: 1rem; }
+        .color-name { font-weight: 600; margin-bottom: 0.5rem; }
+        .color-values { font-size: 0.85rem; color: var(--medium-gray); }
+        .color-values div { margin-bottom: 0.25rem; }
+        .typography-sample { margin: 1.5rem 0; padding: 1.5rem; background: var(--light-gray); border-radius: 8px; border-left: 4px solid var(--primary-blue); }
+        .font-name { font-weight: 600; color: var(--primary-dark); margin-bottom: 1rem; display: flex; align-items: center; }
+        .font-name svg { margin-right: 0.5rem; }
+        .font-weights { display: grid; gap: 0.5rem; }
+        .weight-sample { display: flex; align-items: center; gap: 1rem; }
+        .weight-label { min-width: 100px; font-size: 0.9rem; color: var(--medium-gray); }
+        .mobile-toggle { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 1001; background: var(--primary-blue); color: var(--white); border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); align-items: center; justify-content: center; }
+        .resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .resource-card { background: var(--white); border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); border: 1px solid #adb5bd; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
+        .resource-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); }
+        .resource-title { font-size: 0.9rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 1rem; line-height: 1.3; }
+        .resource-placeholder { width: 100%; height: 150px; min-height: 150px; background: linear-gradient(135deg, var(--light-gray) 0%, #adb5bd 100%); border: 2px dashed var(--medium-gray); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--medium-gray); overflow: hidden; padding: 0.5rem; }
+        .resource-placeholder img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .copy-feedback { position: fixed; background-color: var(--primary-dark); color: var(--white); padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; z-index: 9999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+        @media (max-width: 768px) { .mobile-toggle { display: flex; } .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .main-content { margin-left: 0; max-width: 100vw; padding: 1rem; padding-top: 4rem; } .section-title { font-size: 2rem; } .content-grid, .usage-grid { grid-template-columns: 1fr; } .resources-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
+        @media print { .sidebar, .mobile-toggle { display: none; } .main-content { margin-left: 0; max-width: 100%; } }
+        .icon, .nav-icon { display: inline-block; vertical-align: middle; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .icon-filled, .icon-filled path, .icon-filled circle { stroke: none; fill: currentColor; }
+        .icon, .nav-icon { width: 20px; height: 20px; } .icon-sm { width: 16px; height: 16px; } .icon-lg { width: 24px; height: 24px; }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()"><svg class="icon" viewBox="0 0 24 24"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg></button>
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header"><h1>Guía de Marca</h1><p>Centro Universitario de Educación</p></div>
+            <div class="nav-menu">
+                <div class="nav-item"><a href="#concepto" class="nav-link active" onclick="handleNavLinkClick(event, 'concepto')"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/><path d="M3 12c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/><path d="M12 21c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/><path d="M12 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"/><path d="m8 21 4-7 4 7"/><path d="m8 3 4 7 4-7"/></svg>Concepto de Marca</a></div>
+                <div class="nav-item"><a href="#logotipo" class="nav-link" onclick="handleNavLinkClick(event, 'logotipo')"><svg class="nav-icon" viewBox="0 0 24 24"><polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/><line x1="12" x2="12" y1="22" y2="15.5"/><polyline points="22,8.5 12,15.5 2,8.5"/></svg>Logotipo</a></div>
+                <div class="nav-item"><a href="#colores" class="nav-link" onclick="handleNavLinkClick(event, 'colores')"><svg class="nav-icon icon-filled" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>Colores</a></div>
+                <div class="nav-item"><a href="#tipografias" class="nav-link" onclick="handleNavLinkClick(event, 'tipografias')"><svg class="nav-icon" viewBox="0 0 24 24"><polyline points="4,7 4,4 20,4 20,7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>Tipografías</a></div>
+                <div class="nav-item"><a href="#galeria-recursos" class="nav-link" onclick="handleNavLinkClick(event, 'galeria-recursos')"><svg class="nav-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>Galería de Recursos</a></div>
+                <div class="nav-item"><a href="#usos-indebidos" class="nav-link" onclick="handleNavLinkClick(event, 'usos-indebidos')"><svg class="nav-icon" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>Usos Indebidos</a></div>
+            </div>
+        </nav>
+        <main class="main-content">
+            <section id="concepto" class="section visible">
+                <div class="section-header"><h1 class="section-title">Concepto de Marca</h1><p class="section-subtitle">La esencia y personalidad de Escuni</p></div>
+                <div class="content-grid">
+                    <div class="card"><h3 class="card-title"><svg class="icon icon-filled" style="margin-right: 0.5rem;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Misión y Esencia</h3><p>Escuni es un Centro Universitario de Educación adscrito a la Universidad Pontificia de Salamanca. Su misión principal es formar maestros, pedagogos y educadores sociales, capacitándolos para ser profesionales que impulsan una educación transformadora, inspirada en la fe y los valores cristianos.</p></div>
+                    <div class="card"><h3 class="card-title"><svg class="icon icon-filled" style="margin-right: 0.5rem;" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Conceptos Fundamentales</h3><ul style="list-style: none; padding: 0;"><li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><svg class="icon" style="margin-right: 0.5rem; color: var(--primary-blue);" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Educación</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><svg class="icon icon-filled" style="margin-right: 0.5rem; color: var(--primary-blue);" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>Conocimiento</li><li style="margin: 0.5rem 0; padding: 0.5rem; background: var(--light-gray); border-radius: 4px;"><svg class="icon icon-filled" style="margin-right: 0.5rem; color: var(--primary-blue);" viewBox="0 0 24 24"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/></svg>Origen cristiano</li></ul></div>
+                    <div class="card"><h3 class="card-title"><svg class="icon icon-filled" style="margin-right: 0.5rem;" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>Personalidad de la Marca</h3><p>La personalidad de Escuni se define como <strong>cercana e integradora</strong>.</p></div>
+                    <div class="card"><h3 class="card-title"><svg class="icon" style="margin-right: 0.5rem;" viewBox="0 0 24 24"><path d="M10 10v.2A3 3 0 0 1 8.9 16v0H5v0h0A5.5 5.5 0 0 1 10 10Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 2l-1.4 1.5"/></svg>Símbolo Central</h3><p>El símbolo que representa la educación y la identidad cristiana de Escuni es el <strong>árbol de la vida</strong> del libro del Apocalipsis, capítulo 22. Este árbol es descrito en la Biblia como aquel que da fruto doce veces al año, con una cosecha cada mes, y cuyas hojas son medicinales para las naciones.</p></div>
+                </div>
+            </section>
+            
+            <section id="logotipo" class="section">
+                <div class="section-header"><h1 class="section-title">Logotipo</h1><p class="section-subtitle">El elemento más reconocible de nuestra marca</p></div>
+                <div class="subsection"><h2 class="subsection-title"><svg class="icon-lg" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Versiones y Usos</h2>
+                    <div class="content-grid">
+                        <div class="card"><h3 class="card-title">Versión Principal (Masterbrand)</h3><div class="image-placeholder" data-image-id="logo-principal-vertical"><span>Logotipo Principal Vertical</span></div><div class="image-placeholder" data-image-id="logo-principal-horizontal"><span>Logotipo Principal Horizontal</span></div><p>Es la versión prioritaria para la mayoría de las comunicaciones.</p></div>
+                        <div class="card"><h3 class="card-title">Versiones con Descriptor</h3><div class="image-placeholder" data-image-id="logo-descriptor-comercial"><span>Con descriptor 'Centro Universitario de Educación'</span></div><div class="image-placeholder" data-image-id="logo-descriptor-oficial"><span>Con descriptor 'Centro de Enseñanza Superior'</span></div><p><strong>Comercial:</strong> "Centro Universitario de Educación"<br><strong>Oficial:</strong> "Centro de Enseñanza Superior"</p></div>
+                        <div class="card"><h3 class="card-title">Versiones con Adscripción</h3><div class="image-placeholder" data-image-id="logo-adscripcion"><span>Con adscripción a Universidad Pontificia de Salamanca</span></div><p>Versiones específicas que incluyen la adscripción a la Universidad.</p></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="colores" class="section">
+                <div class="section-header"><h1 class="section-title">Colores</h1><p class="section-subtitle">Paleta cromática para la coherencia visual de Escuni</p></div>
+                <div class="subsection"><h2 class="subsection-title"><svg class="icon-lg" viewBox="0 0 24 24"><polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/><line x1="12" x2="12" y1="22" y2="15.5"/><polyline points="22,8.5 12,15.5 2,8.5"/></svg>Colores Principales</h2><p>Prioritarios para aplicaciones corporativas como tarjetas de presentación o carpetas.</p>
+                    <div class="color-grid">
+                        <div class="color-swatch" onclick="handleCopyHex('#26B2DD', event)"><div class="color-preview" style="background-color: #26B2DD;"></div><div class="color-info"><div class="color-name">Azul Principal</div><div class="color-values"><div><strong>PANTONE:</strong> 298C</div><div><strong>CMYK:</strong> 69-4-4-0</div><div><strong>RGB:</strong> 38-178-221</div><div><strong>HEX:</strong> #26B2DD</div></div></div></div>
+                        <div class="color-swatch" onclick="handleCopyHex('#3A445D', event)"><div class="color-preview" style="background-color: #3A445D;"></div><div class="color-info"><div class="color-name">Azul Oscuro</div><div class="color-values"><div><strong>PANTONE:</strong> 7546 C</div><div><strong>CMYK:</strong> 78-58-44-39</div><div><strong>RGB:</strong> 58-68-93</div><div><strong>HEX:</strong> #3A445D</div></div></div></div>
+                    </div>
+                </div>
+                <div class="subsection"><h2 class="subsection-title"><svg class="icon-lg icon-filled" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>Colores Secundarios</h2><p>Para apoyo y complemento. Ideales para formatos digitales como web o redes sociales.</p>
+                    <div class="color-grid">
+                        <div class="color-swatch" onclick="handleCopyHex('#B47EB3', event)"><div class="color-preview" style="background-color: #B47EB3;"></div><div class="color-info"><div class="color-name">Púrpura</div><div class="color-values"><div><strong>HEX:</strong> #B47EB3</div></div></div></div>
+                        <div class="color-swatch" onclick="handleCopyHex('#1EF0A3', event)"><div class="color-preview" style="background-color: #1EF0A3;"></div><div class="color-info"><div class="color-name">Verde</div><div class="color-values"><div><strong>HEX:</strong> #1EF0A3</div></div></div></div>
+                        <div class="color-swatch" onclick="handleCopyHex('#FFD5FF', event)"><div class="color-preview" style="background-color: #FFD5FF;"></div><div class="color-info"><div class="color-name">Rosa</div><div class="color-values"><div><strong>HEX:</strong> #FFD5FF</div></div></div></div>
+                        <div class="color-swatch" onclick="handleCopyHex('#FFC56F', event)"><div class="color-preview" style="background-color: #FFC56F;"></div><div class="color-info"><div class="color-name">Naranja</div><div class="color-values"><div><strong>HEX:</strong> #FFC56F</div></div></div></div>
+                    </div>
+                </div>
+                <div class="subsection"><h2 class="subsection-title"><svg class="icon-lg icon-filled" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>Versiones de Color del Logotipo</h2>
+                    <div class="content-grid">
+                        <div class="card"><h3 class="card-title">Logotipo en Positivo</h3><div class="image-placeholder" data-image-id="logo-color-positivo"><span>Logotipo sobre fondos claros</span></div><p>Se usa sobre fondos claros.</p></div>
+                        <div class="card"><h3 class="card-title">Logotipo en Negativo</h3><div class="image-placeholder" data-image-id="logo-color-negativo"><span>Logotipo sobre fondos oscuros</span></div><p>Se usa sobre fondos oscuros o imágenes.</p></div>
+                        <div class="card"><h3 class="card-title">Versión a Una Tinta</h3><div class="image-placeholder" data-image-id="logo-color-monocromo"><span>Logotipo monocromático</span></div><p>Para fondos claros u oscuros, o sobre imágenes.</p></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="tipografias" class="section">
+                <div class="section-header"><h1 class="section-title">Tipografías Corporativas</h1><p class="section-subtitle">Fuentes que aportan modernidad y cercanía a la marca</p></div>
+                <div class="typography-sample"><div class="font-name"><svg class="icon-lg" viewBox="0 0 24 24"><polyline points="4,7 4,4 20,4 20,7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg> Poppins (Google Fonts)</div><p>Aporta modernidad y orden a la marca. Se utiliza para el descriptor del logotipo y el resto de textos en todos sus pesos.</p><div class="font-weights"><div class="weight-sample"><span class="weight-label">Regular 400:</span><span style="font-weight: 400; font-size: 1.2rem;">Centro Universitario de Educación</span></div><div class="weight-sample"><span class="weight-label">Bold 700:</span><span style="font-weight: 700; font-size: 1.2rem;">Centro Universitario de Educación</span></div></div></div>
+                <div class="typography-sample"><div class="font-name"><svg class="icon-lg" viewBox="0 0 24 24"><polyline points="4,7 4,4 20,4 20,7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg> Semplicita</div><p>Es la tipografía utilizada en el naming del logotipo que aporta contemporaneidad y cercanía a la marca.</p><div class="font-weights"><div class="weight-sample"><span class="weight-label">Regular 400:</span><span style="font-family: sans-serif; font-weight: 400; font-size: 1.2rem;">ESCUNI</span></div></div></div>
+            </section>
+            
+            <section id="galeria-recursos" class="section">
+                <div class="section-header"><h1 class="section-title">Galería de Recursos</h1><p class="section-subtitle">Descarga el que necesites haciendo click derecho en el logo y guardandolo en tu ordenador</p></div>
+                <div class="subsection">
+                    <h2 class="subsection-title"><svg class="icon-lg" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg> Recursos de Marca</h2>
+                    <div class="resources-grid" id="resources-grid"></div>
+                </div>
+            </section>
+            
+            <section id="usos-indebidos" class="section">
+                <div class="section-header"><h1 class="section-title">Usos Indebidos del Logotipo</h1><p class="section-subtitle">Prácticas a evitar para mantener la integridad visual de la marca</p></div>
+                
+                    <div class="card"><h3 class="card-title"><svg class="icon" style="margin-right: 0.5rem; color: #dc3545;" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>Prohibiciones</h3><ul style="list-style: none; padding: 0;"><li style="margin: 0.5rem 0;">No alterar los colores</li><li style="margin: 0.5rem 0;">No escalar el descriptor</li><li style="margin: 0.5rem 0;">No reinterpretar los elementos</li><li style="margin: 0.5rem 0;">No aplicar efectos</li></ul></div>
+                    <div class="card"><h3 class="card-title"><svg class="icon" style="margin-right: 0.5rem; color: #dc3545;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>Más Restricciones</h3><ul style="list-style: none; padding: 0;"><li style="margin: 0.5rem 0;">No usar "escuni" solo</li><li style="margin: 0.5rem 0;">No usar sobre fotos complejas</li><li style="margin: 0.5rem 0;">No estirar o deformar</li><li style="margin: 0.5rem 0;">No usar otras tipografías</li></ul></div>
+                    <div class="card"><h3 class="card-title"><svg class="icon" style="margin-right: 0.5rem; color: var(--primary-blue);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Nota Importante</h3><div style="padding: 1rem; background: rgba(38, 178, 221, 0.1); border-radius: 8px; border-left: 4px solid var(--primary-blue);"><p><strong>El símbolo del árbol SÍ puede funcionar de manera autónoma</strong> en redes sociales o sellos.</p></div></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // ========================================================================
+        // PANEL DE CONTROL DE IMÁGENES
+        // Rellena las URLs para que las imágenes se muestren en la guía.
+        // ========================================================================
+
+        const imageData = {
+            'logo-principal-vertical': 'https://www.escuni.es/wp-content/uploads/2025/09/VerticalPANTONE@4x.png',
+            'logo-principal-horizontal': 'https://www.escuni.es/wp-content/uploads/2025/09/HorizontalPANTONE@4x.png',
+            'logo-descriptor-comercial': 'https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUEPANTONE@4x.png',
+            'logo-descriptor-oficial': 'https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CESPANTONE@4x.png',
+            'logo-adscripcion': 'https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUE-PontificiaPANTONE@4x.png',
+            'logo-color-positivo': 'https://www.escuni.es/wp-content/uploads/2025/09/VerticalPANTONE@4x.png',
+            'logo-color-negativo': 'https://www.escuni.es/wp-content/uploads/2025/09/Vert.-NegativoPANTONE@4x.png',
+            'logo-color-monocromo': 'https://www.escuni.es/wp-content/uploads/2025/09/Vert.-Negativo-BlancoPANTONE@4x.png',
+            'uso-correcto': 'https://placehold.co/800x400/D1FAE5/10B981?text=USO+CORRECTO',
+            'usos-indebidos-ejemplos': 'https://placehold.co/800x400/FEE2E2/DC2626?text=EJEMPLOS+DE+USOS+INDEBIDOS'
+        };
+
+        const resourcesData = [
+            { id: 1, title: "Logo Horizontal ESCUNI PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/HorizontalPANTONE@4x.png" },
+            { id: 2, title: "Logo Horizontal ESCUNI Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-NegativoPANTONE@4x.png" },
+            { id: 3, title: "Logo Horizontal ESCUNI Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-Negativo-BlancoPANTONE@4x.png" },
+            { id: 4, title: "Logo Horizontal CUE PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CUEPANTONE@4x.png" },
+            { id: 5, title: "Logo Horizontal CUE Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CUE-NegativoPANTONE@4x.png" },
+            { id: 6, title: "Logo Horizontal CUE Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CUE-Negativo-BlancoPANTONE@4x.png" },
+            { id: 7, title: "Logo Horizontal CUE + Pontificia PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CUE-PontificiaPANTONE@4x.png" },
+            { id: 8, title: "Logo Horizontal CUE + Pontificia Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CUE-Pontificia-NegativoPANTONE@4x.png" },
+            { id: 9, title: "Logo Horizontal CUE + Pontificia Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CUE-Pontificia-Negativo-BlancoPANTONE@4x.png" },
+            { id: 10, title: "Logo Horizontal CES PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CESPANTONE@4x.png" },
+            { id: 11, title: "Logo Horizontal CES Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CES-NegativoPANTONE@4x.png" },
+            { id: 12, title: "Logo Horizontal CES Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CES-Negativo-BlancoPANTONE@4x.png" },
+            { id: 13, title: "Logo Horizontal CES + Pontificia PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CES-PontificiaPANTONE@4x.png" },
+            { id: 14, title: "Logo Horizontal CES + Pontificia Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CES-Pontificia-NegativoPANTONE@4x.png" },
+            { id: 15, title: "Logo Horizontal CES + Pontificia Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Horiz.-CES-Pontificia-Negativo-BlancoPANTONE@4x.png" },
+            { id: 16, title: "Logo Vertical ESCUNI PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/VerticalPANTONE@4x.png" },
+            { id: 17, title: "Logo Vertical ESCUNI Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-NegativoPANTONE@4x.png" },
+            { id: 18, title: "Logo Vertical ESCUNI Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-Negativo-BlancoPANTONE@4x.png" },
+            { id: 19, title: "Logo Vertical CUE PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUEPANTONE@4x.png" },
+            { id: 20, title: "Logo Vertical CUE Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUE-NegativoPANTONE@4x.png" },
+            { id: 21, title: "Logo Vertical CUE Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUE-Negativo-BlancoPANTONE@4x.png" },
+            { id: 22, title: "Logo Vertical CUE + Pontificia PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUE-PontificiaPANTONE@4x.png" },
+            { id: 23, title: "Logo Vertical CUE + Pontificia Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUE-Pontificia-NegativoPANTONE@4x.png" },
+            { id: 24, title: "Logo Vertical CUE + Pontificia Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CUE-Pontificia-Negativo-BlancoPANTONE@4x.png" },
+            { id: 25, title: "Logo Vertical CES PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CESPANTONE@4x.png" },
+            { id: 26, title: "Logo Vertical CES Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CES-NegativoPANTONE@4x.png" },
+            { id: 27, title: "Logo Vertical CES Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CES-Negativo-BlancoPANTONE@4x.png" },
+            { id: 28, title: "Logo Vertical CES + Pontificia PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CES-PontificiaPANTONE@4x.png" },
+            { id: 29, title: "Logo Vertical CES + Pontificia Negativo PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CES-Pontificia-NegativoPANTONE@4x.png" },
+            { id: 30, title: "Logo Vertical CES + Pontificia Negativo Blanco PANTONE", imageUrl: "https://www.escuni.es/wp-content/uploads/2025/09/Vert.-CES-Pontificia-Negativo-BlancoPANTONE@4x.png" },
+        ];
+        
+        // ========================================================================
+        // LÓGICA DE LA PÁGINA (No necesitas editar debajo de esta línea)
+        // ========================================================================
+        
+        let activeSection = 'concepto', isSidebarOpen = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            populateImagePlaceholders(); generateResourcesGrid(); setupScrollObserver(); setupEventListeners();
+        });
+
+        function populateImagePlaceholders() {
+            document.querySelectorAll('.image-placeholder').forEach(p => {
+                const id = p.dataset.imageId;
+                if (id && imageData[id]) {
+                    const alt = p.querySelector('span')?.textContent || 'Imagen de marca';
+                    p.innerHTML = `<img src="${imageData[id]}" alt="${alt}" loading="lazy">`;
+                    p.style.border = '1px solid #dee2e6';
+                    // // CAMBIO JS --> He comentado la siguiente línea para evitar que el fondo se vuelva blanco.
+                    // p.style.background = 'var(--white)'; 
+                }
+            });
+        }
+        
+        function generateResourcesGrid() {
+            const grid = document.getElementById('resources-grid'); if (!grid) return;
+            grid.innerHTML = resourcesData.map(r => {
+                const isPlaceholderUrl = !r.imageUrl || r.imageUrl.startsWith('URL_DE_TU_IMAGEN');
+                const previewUrl = isPlaceholderUrl ? `https://placehold.co/200x150/adb5bd/6c757d?text=Sin+Imagen` : r.imageUrl;
+                return `
+                <div class="resource-card">
+                    <h3 class="resource-title">${r.title}</h3>
+                    <div class="resource-placeholder"><img src="${previewUrl}" alt="Vista previa de ${r.title}" loading="lazy"></div>
+                </div>`;
+            }).join('');
+        }
+
+        function setupScrollObserver() { const observer = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); setActiveSection(e.target.id); } }), { threshold: 0.1 }); document.querySelectorAll('.section').forEach(s => observer.observe(s)); }
+        function setupEventListeners() { document.addEventListener('click', e => { const sidebar = document.getElementById('sidebar'), toggle = document.querySelector('.mobile-toggle'); if (window.innerWidth <= 768 && sidebar && !sidebar.contains(e.target) && toggle && !toggle.contains(e.target) && isSidebarOpen) setIsSidebarOpen(false); }); }
+        function toggleSidebar() { setIsSidebarOpen(!isSidebarOpen); }
+        function setIsSidebarOpen(open) { isSidebarOpen = open; document.getElementById('sidebar')?.classList.toggle('open', open); }
+        function handleNavLinkClick(e, id) { e.preventDefault(); const t = document.getElementById(id); if (t) { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); setActiveSection(id); if (window.innerWidth <= 768) setIsSidebarOpen(false); } }
+        function setActiveSection(id) { if (!id) return; activeSection = id; document.querySelectorAll('.nav-link').forEach(l => { l.classList.remove('active'); if (l.getAttribute('href') === `#${id}`) l.classList.add('active'); }); }
+        function showCopyFeedback(e, text) { let f = document.querySelector('.copy-feedback'); if (!f) { f = document.createElement('div'); f.className = 'copy-feedback'; document.body.appendChild(f); } f.textContent = text; f.style.left = `${e.clientX + 15}px`; f.style.top = `${e.clientY}px`; f.style.opacity = 1; setTimeout(() => f.style.opacity = 0, 1200); }
+        function handleCopyHex(hex, e) { navigator.clipboard?.writeText(hex).then(() => showCopyFeedback(e, `Copiado: ${hex}`)); }
+    </script>
+</body>
+</html>
